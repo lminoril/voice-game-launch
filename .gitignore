@@ -1,0 +1,18 @@
+# Модель распознавания (45 МБ) качается приложением при первом запуске
+model/
+model.zip
+
+# Журналы
+app.log
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Редакторы
+.vscode/
+.idea/
+Thumbs.db

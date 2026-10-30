@@ -1,0 +1,10 @@
+{
+  "app_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Arc Raiders\\PioneerGame.exe",
+  "process_name": "PioneerGame.exe",
+  "phrase": "олимпиец на месте",
+  "threshold": 88.0,
+  "cooldown_seconds": 15,
+  "sample_rate": 16000,
+  "device": null,
+  "beep": true
+}
