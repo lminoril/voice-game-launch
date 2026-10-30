@@ -49,9 +49,160 @@ DEFAULT_CONFIG = {
     "sample_rate": 16000,
     "device": None,
     "beep": True,
+    "lang": "ru",
 }
 
-THRESHOLD_PRESETS = {"Строго": 92.0, "Обычно": 88.0, "Мягко": 82.0}
+THRESHOLD_PRESETS = {"strict": 92.0, "normal": 88.0, "soft": 82.0}
+
+STRINGS = {
+    "ru": {
+        "app_title": "Голосовой запуск",
+        "lang_button": "EN",
+        "badge_listen": "● слушаю",
+        "badge_pause": "● пауза",
+        "badge_loading": "● загрузка",
+        "badge_error": "● ошибка",
+        "badge_probe": "● проверка",
+        "badge_no_model": "● нет модели",
+        "status_starting": "Запускаюсь…",
+        "status_starting_hint": "Секунду",
+        "status_listening": "Слушаю микрофон",
+        "status_loading": "Загружаю модель…",
+        "status_loading_hint": "Один раз при запуске",
+        "status_paused": "Пауза",
+        "status_paused_hint": "Микрофон не слушаю",
+        "status_error": "Ошибка",
+        "status_probe": "Слушаю…",
+        "status_probe_hint": "Скажи фразу, слушаю {n} с",
+        "status_launched": "Запущено!",
+        "status_launched_hint": "Фраза «{phrase}»",
+        "status_no_model": "Модель не загружена",
+        "status_no_model_hint": "Нужна модель распознавания",
+        "hint_phrase": "Скажи «{phrase}» — запущу {name}",
+        "phrase_fallback": "фразу",
+        "program_fallback": "программу",
+        "dlg_pick_exe": "Выбери exe программы",
+        "filetypes_programs": "Программы",
+        "filetypes_all": "Все файлы",
+        "label_app": "Программа или игра",
+        "label_phrase": "Кодовая фраза",
+        "label_sensitivity": "Чувствительность",
+        "btn_browse": "Обзор",
+        "btn_pause": "Пауза",
+        "btn_listen": "Слушать",
+        "btn_probe": "Проверить фразу",
+        "btn_launch": "Запустить",
+        "preset_strict": "Строго",
+        "preset_normal": "Обычно",
+        "preset_soft": "Мягко",
+        "log_title": "Что слышно",
+        "log_placeholder": "Пока тихо. Скажи фразу — здесь появится, что услышал распознаватель.",
+        "footer": "Крестик сворачивает в трей — микрофон продолжает слушать",
+        "log_launched_manual": "Запущено вручную",
+        "log_already": "Уже запущено — второй раз не открываю",
+        "log_launching": "🎯 «{text}» — запускаю",
+        "log_skip": "Уже запущено — пропускаю",
+        "log_failed": "Не вышло: {error}",
+        "log_model_ready": "Модель загружена",
+        "log_tray_failed": "Трей недоступен — закрытие окна завершит работу",
+        "log_shortcut_ok": "Ярлык на рабочем столе: {name}",
+        "log_shortcut_err": "Ярлык не создан: {error}",
+        "log_model_missing": "Модель ещё не готова",
+        "tray_open": "Открыть окно",
+        "tray_toggle": "Слушать / пауза",
+        "tray_launch": "Запустить сейчас",
+        "tray_shortcut": "Ярлык на рабочий стол",
+        "tray_quit": "Выход",
+        "notify_hidden": "Приложение работает в трее",
+        "dlg_model_title": "Нужна модель",
+        "dlg_model_text": "Для распознавания речи нужна модель Vosk (~45 МБ).\nСкачать её сейчас? Нужен интернет.",
+        "dlg_downloading": "Загрузка модели",
+        "dlg_connecting": "Соединяюсь…",
+        "dlg_downloaded": "Скачано {done} из {total} МБ",
+        "dlg_unpacking": "Распаковываю…",
+        "dlg_mirror": "Зеркало не ответило, пробую другое…",
+        "dlg_error_title": "Не вышло",
+        "dlg_no_tray_title": "Свернуть некуда",
+        "dlg_no_tray_text": "Иконка в трее недоступна.\nЗакрыть приложение?",
+        "dlg_quit": "Закрыть",
+    },
+    "en": {
+        "app_title": "Voice Launcher",
+        "lang_button": "RU",
+        "badge_listen": "● listening",
+        "badge_pause": "● paused",
+        "badge_loading": "● loading",
+        "badge_error": "● error",
+        "badge_probe": "● testing",
+        "badge_no_model": "● no model",
+        "status_starting": "Starting…",
+        "status_starting_hint": "One moment",
+        "status_listening": "Listening",
+        "status_loading": "Loading model…",
+        "status_loading_hint": "Only once at startup",
+        "status_paused": "Paused",
+        "status_paused_hint": "Microphone is off",
+        "status_error": "Error",
+        "status_probe": "Listening…",
+        "status_probe_hint": "Say the phrase, listening {n} s",
+        "status_launched": "Launched!",
+        "status_launched_hint": "Phrase «{phrase}»",
+        "status_no_model": "Model is not loaded",
+        "status_no_model_hint": "Speech model required",
+        "hint_phrase": "Say «{phrase}» — I'll start {name}",
+        "phrase_fallback": "the phrase",
+        "program_fallback": "the program",
+        "dlg_pick_exe": "Choose the program exe",
+        "filetypes_programs": "Programs",
+        "filetypes_all": "All files",
+        "label_app": "Program or game",
+        "label_phrase": "Trigger phrase",
+        "label_sensitivity": "Sensitivity",
+        "btn_browse": "Browse",
+        "btn_pause": "Pause",
+        "btn_listen": "Listen",
+        "btn_probe": "Test phrase",
+        "btn_launch": "Launch",
+        "preset_strict": "Strict",
+        "preset_normal": "Normal",
+        "preset_soft": "Soft",
+        "log_title": "What I hear",
+        "log_placeholder": "Quiet so far. Say the phrase — what the recognizer hears will show up here.",
+        "footer": "The X button hides the window to tray — listening continues",
+        "log_launched_manual": "Launched manually",
+        "log_already": "Already running — not starting it again",
+        "log_launching": "🎯 «{text}» — launching",
+        "log_skip": "Already running — skipping",
+        "log_failed": "Failed: {error}",
+        "log_model_ready": "Model loaded",
+        "log_tray_failed": "Tray unavailable — closing the window will quit",
+        "log_shortcut_ok": "Desktop shortcut: {name}",
+        "log_shortcut_err": "Shortcut not created: {error}",
+        "log_model_missing": "Model is not ready yet",
+        "tray_open": "Open window",
+        "tray_toggle": "Listen / pause",
+        "tray_launch": "Launch now",
+        "tray_shortcut": "Desktop shortcut",
+        "tray_quit": "Quit",
+        "notify_hidden": "Still running in the tray",
+        "dlg_model_title": "Model required",
+        "dlg_model_text": "Speech recognition needs the Vosk model (~45 MB).\nDownload it now? Internet required.",
+        "dlg_downloading": "Downloading model",
+        "dlg_connecting": "Connecting…",
+        "dlg_downloaded": "Downloaded {done} of {total} MB",
+        "dlg_unpacking": "Unpacking…",
+        "dlg_mirror": "Mirror failed, trying another…",
+        "dlg_error_title": "Failed",
+        "dlg_no_tray_title": "Nothing to hide to",
+        "dlg_no_tray_text": "Tray icon is unavailable.\nQuit the application?",
+        "dlg_quit": "Quit",
+    },
+}
+
+
+def t(lang: str, key: str, **kwargs) -> str:
+    text = STRINGS.get(lang, STRINGS["ru"]).get(key, key)
+    return text.format(**kwargs) if kwargs else text
 
 # ---------------------------------------------------------------------------
 # Палитра
@@ -332,9 +483,21 @@ def model_ready() -> bool:
     return MODEL_DIR.exists() and (MODEL_DIR / "am").exists()
 
 
-def download_model(progress=None) -> None:
+DOWNLOAD_TEXTS = {
+    "connect": "Соединяюсь…",
+    "downloaded": "Скачано {done} из {total} МБ",
+    "unpack": "Распаковываю…",
+    "mirror": "Зеркало не ответило, пробую другое…",
+    "corrupt": "файл повреждён",
+    "no_model": "в архиве нет модели",
+    "failed": "Не удалось скачать модель: {error}",
+}
+
+
+def download_model(progress=None, texts: dict | None = None) -> None:
     import urllib.request
 
+    messages = {**DOWNLOAD_TEXTS, **(texts or {})}
     MODEL_DIR.parent.mkdir(parents=True, exist_ok=True)
     zip_path = APP_DIR / "model.zip"
     last_error: Exception | None = None
@@ -342,7 +505,7 @@ def download_model(progress=None) -> None:
     for url in MODEL_URLS:
         try:
             if progress:
-                progress(0, "Соединяюсь…")
+                progress(0, messages["connect"])
             request = urllib.request.Request(url, headers={"User-Agent": "voice-launcher"})
             with urllib.request.urlopen(request, timeout=60) as response, \
                     open(zip_path, "wb") as out:
@@ -356,24 +519,25 @@ def download_model(progress=None) -> None:
                     done += len(chunk)
                     if progress:
                         percent = (done * 100 / total) if total else 0
-                        progress(percent, f"Скачано {done // 1048576} из {max(1, total // 1048576)} МБ")
+                        progress(percent, messages["downloaded"].format(
+                            done=done // 1048576, total=max(1, total // 1048576)))
             if not zipfile.is_zipfile(zip_path):
-                raise RuntimeError("файл повреждён")
+                raise RuntimeError(messages["corrupt"])
             if progress:
-                progress(100, "Распаковываю…")
+                progress(100, messages["unpack"])
             with zipfile.ZipFile(zip_path) as archive:
                 archive.extractall(MODEL_DIR.parent)
             zip_path.unlink(missing_ok=True)
             if model_ready():
                 return
-            raise RuntimeError("в архиве нет модели")
+            raise RuntimeError(messages["no_model"])
         except Exception as exc:
             last_error = exc
             if progress:
-                progress(0, "Зеркало не ответило, пробую другое…")
+                progress(0, messages["mirror"])
             continue
 
-    raise RuntimeError(f"Не удалось скачать модель: {last_error}")
+    raise RuntimeError(messages["failed"].format(error=last_error))
 
 
 # ---------------------------------------------------------------------------
@@ -406,7 +570,7 @@ class Engine(threading.Thread):
     def start_probe(self, seconds: float = 6.0) -> None:
         self.buffer = []
         self.probe_until = time.time() + seconds
-        self.out.put(("status", "probe", f"Слушаю {int(seconds)} с…"))
+        self.out.put(("status", "probe", int(seconds)))
 
     def run(self) -> None:
         attempt = 0
@@ -427,7 +591,7 @@ class Engine(threading.Thread):
         from vosk import KaldiRecognizer, Model, SetLogLevel
 
         SetLogLevel(-1)
-        self.out.put(("status", "loading", "Загружаю модель…"))
+        self.out.put(("status", "loading", None))
         model = Model(str(MODEL_DIR))
         log.info("Модель загружена")
 
@@ -911,6 +1075,9 @@ class App:
 
         self.tk = tk
         self.cfg = load_config()
+        self.lang = self.cfg.get("lang", "ru")
+        if self.lang not in STRINGS:
+            self.lang = "ru"
         self.events: "queue.Queue[tuple]" = queue.Queue()
         self.commands: "queue.Queue[str]" = queue.Queue()
         self.engine: Engine | None = None
@@ -923,11 +1090,11 @@ class App:
         self._preset = next(
             (name for name, value in THRESHOLD_PRESETS.items()
              if abs(value - float(self.cfg.get("threshold", 88))) < 0.01),
-            "Обычно",
+            "normal",
         )
 
         self.root = tk.Tk()
-        self.root.title("Голосовой запуск")
+        self.root.title(self.t("app_title"))
         self.root.configure(bg=BG)
         self.root.resizable(False, False)
 
@@ -990,6 +1157,9 @@ class App:
 
     # ---------------------- сборка интерфейса ----------------------
 
+    def t(self, key: str, **kwargs) -> str:
+        return t(self.lang, key, **kwargs)
+
     def _build(self) -> None:
         tk = self.tk
         s = self.s
@@ -1000,9 +1170,20 @@ class App:
 
         header = tk.Frame(outer, bg=BG)
         header.pack(fill="x")
-        tk.Label(header, text="Голосовой запуск", bg=BG, fg=TEXT,
-                 font=f(19, "semi")).pack(side="left")
-        self.badge = tk.Label(header, text="● слушаю", bg=BG, fg=ACCENT, font=f(10, "light"))
+
+        self.lang_btn = RoundButton(
+            header, self.t("lang_button"), width=s(46), height=s(30), radius=s(9),
+            fill=CARD_HI, text_color=TEXT, bg=BG, font=f(9, "semi"),
+            command=self.toggle_language,
+        )
+        self.lang_btn.pack(side="left")
+
+        self.title_label = tk.Label(header, text=self.t("app_title"), bg=BG, fg=TEXT,
+                                    font=f(19, "semi"))
+        self.title_label.pack(side="left", padx=(s(10), 0))
+
+        self.badge = tk.Label(header, text=self.t("badge_listen"), bg=BG, fg=ACCENT,
+                              font=f(10, "light"))
         self.badge.pack(side="right")
 
         card = RoundCard(outer, bg=BG, fill=CARD, radius=s(14), padding=s(16))
@@ -1015,43 +1196,47 @@ class App:
 
         info = tk.Frame(body, bg=CARD)
         info.pack(side="left", fill="x", expand=True, padx=(s(14), 0))
-        self.status_title = tk.Label(info, text="Запускаюсь…", bg=CARD, fg=TEXT,
+        self.status_title = tk.Label(info, text=self.t("status_starting"), bg=CARD, fg=TEXT,
                                      font=f(16, "semi"), anchor="w")
         self.status_title.pack(fill="x")
-        self.status_hint = tk.Label(info, text="Секунду", bg=CARD, fg=MUTED,
+        self.status_hint = tk.Label(info, text=self.t("status_starting_hint"), bg=CARD, fg=MUTED,
                                     font=f(10, "light"), anchor="w", justify="left")
         self.status_hint.pack(fill="x", pady=(s(4), 0))
 
         fields = tk.Frame(outer, bg=BG)
         fields.pack(fill="x", pady=(s(18), 0))
 
-        tk.Label(fields, text="Программа или игра", bg=BG, fg=MUTED,
-                 font=f(10, "light")).pack(anchor="w")
+        self.label_app = tk.Label(fields, text=self.t("label_app"), bg=BG, fg=MUTED,
+                                  font=f(10, "light"))
+        self.label_app.pack(anchor="w")
         row = tk.Frame(fields, bg=BG)
         row.pack(fill="x", pady=(s(5), 0))
         self.path_var = tk.StringVar(value=self.cfg["app_path"])
         self.path_entry = RoundEntry(row, self.path_var, height=s(38), radius=s(12),
                                      bg=BG, fill=FIELD, font=f(10))
         self.path_entry.pack(side="left", fill="x", expand=True)
-        RoundButton(row, "Обзор", width=s(84), height=s(38), radius=s(12),
-                    fill=CARD_HI, text_color=TEXT, bg=BG, font=f(10, "light"),
-                    command=self.browse).pack(side="left", padx=(s(8), 0))
+        self.browse_btn = RoundButton(row, self.t("btn_browse"), width=s(84), height=s(38),
+                                      radius=s(12), fill=CARD_HI, text_color=TEXT, bg=BG,
+                                      font=f(10, "light"), command=self.browse)
+        self.browse_btn.pack(side="left", padx=(s(8), 0))
 
-        tk.Label(fields, text="Кодовая фраза", bg=BG, fg=MUTED,
-                 font=f(10, "light")).pack(anchor="w", pady=(s(12), 0))
+        self.label_phrase = tk.Label(fields, text=self.t("label_phrase"), bg=BG, fg=MUTED,
+                                     font=f(10, "light"))
+        self.label_phrase.pack(anchor="w", pady=(s(12), 0))
         self.phrase_var = tk.StringVar(value=self.cfg["phrase"])
         self.phrase_entry = RoundEntry(fields, self.phrase_var, height=s(38),
                                        radius=s(12), bg=BG, fill=FIELD, font=f(10))
         self.phrase_entry.pack(fill="x", pady=(s(5), 0))
 
-        tk.Label(fields, text="Чувствительность", bg=BG, fg=MUTED,
-                 font=f(10, "light")).pack(anchor="w", pady=(s(12), 0))
+        self.label_sens = tk.Label(fields, text=self.t("label_sensitivity"), bg=BG, fg=MUTED,
+                                   font=f(10, "light"))
+        self.label_sens.pack(anchor="w", pady=(s(12), 0))
         pills = tk.Frame(fields, bg=BG)
         pills.pack(anchor="w", pady=(s(6), 0))
         self.pills: dict[str, RoundButton] = {}
         for name in THRESHOLD_PRESETS:
             button = RoundButton(
-                pills, name, width=s(100), height=s(34), radius=s(10),
+                pills, self.t(f"preset_{name}"), width=s(100), height=s(34), radius=s(10),
                 fill=CARD, text_color=MUTED, bg=BG, font=f(10, "light"),
                 command=lambda n=name: self.set_preset(n),
             )
@@ -1060,23 +1245,26 @@ class App:
 
         actions = tk.Frame(outer, bg=BG)
         actions.pack(fill="x", pady=(s(20), 0))
-        self.toggle_btn = RoundButton(actions, "Пауза", width=s(150), height=s(44),
+        self.toggle_btn = RoundButton(actions, self.t("btn_pause"), width=s(150), height=s(44),
                                       fill=ACCENT, bg=BG, font=f(11, "semi"),
                                       radius=s(13), command=self.toggle_listening)
         self.toggle_btn.pack(side="left")
-        RoundButton(actions, "Проверить фразу", width=s(180), height=s(44),
-                    fill=CARD_HI, text_color=TEXT, bg=BG, font=f(11, "light"),
-                    radius=s(13), command=self.probe).pack(side="left", padx=(s(8), 0))
-        RoundButton(actions, "Запустить", width=s(150), height=s(44),
-                    fill=CARD_HI, text_color=TEXT, bg=BG, font=f(11, "light"),
-                    radius=s(13), command=self.launch_now).pack(side="left", padx=(s(8), 0))
+        self.probe_btn = RoundButton(actions, self.t("btn_probe"), width=s(180), height=s(44),
+                                     fill=CARD_HI, text_color=TEXT, bg=BG,
+                                     font=f(11, "light"), radius=s(13), command=self.probe)
+        self.probe_btn.pack(side="left", padx=(s(8), 0))
+        self.launch_btn = RoundButton(actions, self.t("btn_launch"), width=s(150), height=s(44),
+                                      fill=CARD_HI, text_color=TEXT, bg=BG,
+                                      font=f(11, "light"), radius=s(13), command=self.launch_now)
+        self.launch_btn.pack(side="left", padx=(s(8), 0))
 
         log_card = RoundCard(outer, bg=BG, fill=CARD, radius=s(14), padding=s(14))
         log_card.pack(fill="x", pady=(s(18), 0))
         self.log_card = log_card
         inner = log_card.body
-        tk.Label(inner, text="Что слышно", bg=CARD, fg=MUTED,
-                 font=f(9, "light")).pack(anchor="w")
+        self.label_log = tk.Label(inner, text=self.t("log_title"), bg=CARD, fg=MUTED,
+                                  font=f(9, "light"))
+        self.label_log.pack(anchor="w")
         self.log_text = tk.Text(inner, height=4, bg=CARD, fg=TEXT,
                                 font=f(10, "light"), wrap="word", bd=0,
                                 highlightthickness=0, insertbackground=CARD,
@@ -1086,18 +1274,58 @@ class App:
         self.log_text.tag_configure("dim", foreground=MUTED)
         self.log_text.tag_configure("err", foreground=RED)
         self.log_text.configure(state="normal")
-        self.log_text.insert("end", "Пока тихо. Скажи фразу — здесь появится, "
-                                    "что услышал распознаватель.\n", "dim")
+        self.log_text.insert("end", self.t("log_placeholder") + "\n", "dim")
         self.log_text.configure(state="disabled")
 
-        tk.Label(outer, text="Крестик сворачивает в трей — микрофон продолжает слушать",
-                 bg=BG, fg="#5d626c", font=f(9, "light")).pack(pady=(s(12), 0))
+        self.footer_label = tk.Label(outer, text=self.t("footer"), bg=BG, fg="#5d626c",
+                                     font=f(9, "light"))
+        self.footer_label.pack(pady=(s(12), 0))
 
         self.path_var.trace_add("write", lambda *_a: self._schedule_save())
         self.phrase_var.trace_add("write", lambda *_a: self._schedule_save())
 
         self._sync_pills()
         self.status_hint.configure(text=self._phrase_hint())
+
+    # ---------------------- язык ----------------------
+
+    def toggle_language(self) -> None:
+        self.lang = "en" if self.lang == "ru" else "ru"
+        self.cfg["lang"] = self.lang
+        save_config(self.cfg)
+        self._apply_language()
+
+    def _apply_language(self) -> None:
+        self.root.title(self.t("app_title"))
+        self.lang_btn.configure(text=self.t("lang_button"))
+        self.title_label.configure(text=self.t("app_title"))
+        self.label_app.configure(text=self.t("label_app"))
+        self.label_phrase.configure(text=self.t("label_phrase"))
+        self.label_sens.configure(text=self.t("label_sensitivity"))
+        self.browse_btn.configure(text=self.t("btn_browse"))
+        self.probe_btn.configure(text=self.t("btn_probe"))
+        self.launch_btn.configure(text=self.t("btn_launch"))
+        self.label_log.configure(text=self.t("log_title"))
+        self.footer_label.configure(text=self.t("footer"))
+        self._sync_pills()
+
+        if self._placeholder:
+            self.log_text.configure(state="normal")
+            self.log_text.delete("1.0", "end")
+            self.log_text.insert("end", self.t("log_placeholder") + "\n", "dim")
+            self.log_text.configure(state="disabled")
+
+        if self.listening:
+            self.toggle_btn.configure(text=self.t("btn_pause"))
+            self.set_status(self.t("status_listening"), self._phrase_hint(), ACCENT)
+        else:
+            self.toggle_btn.configure(text=self.t("btn_listen"))
+            self.set_status(self.t("status_paused"), self.t("status_paused_hint"),
+                            MUTED, self.t("badge_pause"))
+
+        if self.tray:
+            self.tray.refresh()
+        self._fit_window()
 
     # ---------------------- настройки ----------------------
 
@@ -1120,7 +1348,7 @@ class App:
 
     @property
     def current_preset(self) -> str:
-        return getattr(self, "_preset", "Обычно")
+        return getattr(self, "_preset", "normal")
 
     def set_preset(self, name: str) -> None:
         self._preset = name
@@ -1130,23 +1358,24 @@ class App:
     def _sync_pills(self) -> None:
         for name, pill in self.pills.items():
             selected = name == self.current_preset
-            pill.configure(fill=ACCENT if selected else CARD,
+            pill.configure(text=self.t(f"preset_{name}"),
+                           fill=ACCENT if selected else CARD,
                            text_color=ACCENT_INK if selected else MUTED)
 
     def _update_hint(self) -> None:
         self.status_hint.configure(text=self._phrase_hint(), fg=MUTED)
 
     def _phrase_hint(self) -> str:
-        phrase = self.phrase_var.get().strip() or "фразу"
-        name = Path(self.cfg.get("app_path", "")).stem or "программу"
-        return f"Скажи «{phrase}» — запущу {name}"
+        phrase = self.phrase_var.get().strip() or self.t("phrase_fallback")
+        name = Path(self.cfg.get("app_path", "")).stem or self.t("program_fallback")
+        return self.t("hint_phrase", phrase=phrase, name=name)
 
     def browse(self) -> None:
         from tkinter import filedialog
 
         path = filedialog.askopenfilename(
-            title="Выбери exe программы",
-            filetypes=[("Программы", "*.exe"), ("Все файлы", "*.*")],
+            title=self.t("dlg_pick_exe"),
+            filetypes=[(self.t("filetypes_programs"), "*.exe"), (self.t("filetypes_all"), "*.*")],
         )
         if path:
             self.path_var.set(path)
@@ -1159,23 +1388,23 @@ class App:
         if hint is not None:
             self.status_hint.configure(text=hint, fg=MUTED)
         self.mic.set_active(self.listening)
-        self.badge.configure(text=badge or ("● слушаю" if self.listening else "● пауза"),
-                             fg=color)
+        default_badge = self.t("badge_listen") if self.listening else self.t("badge_pause")
+        self.badge.configure(text=badge or default_badge, fg=color)
 
     # ---------------------- слушатель ----------------------
 
     def start_listening(self) -> None:
         if not model_ready():
             if not self.ask_download_model():
-                self.set_status("Модель не загружена", "Нужна модель распознавания",
-                                YELLOW, "● нет модели")
+                self.set_status(self.t("status_no_model"), self.t("status_no_model_hint"),
+                                YELLOW, self.t("badge_no_model"))
                 return
             return
 
         self.engine = Engine(self.cfg, self.events)
         self.engine.start()
         self.listening = True
-        self.toggle_btn.configure(text="Пауза", fill=ACCENT)
+        self.toggle_btn.configure(text=self.t("btn_pause"), fill=ACCENT)
         self.mic.set_active(True)
 
     def toggle_listening(self) -> None:
@@ -1184,16 +1413,17 @@ class App:
             return
         self.listening = not self.listening
         self.engine.set_paused(not self.listening)
-        self.toggle_btn.configure(text="Пауза" if self.listening else "Слушать",
+        self.toggle_btn.configure(text=self.t("btn_pause") if self.listening else self.t("btn_listen"),
                                   fill=ACCENT if self.listening else CARD_HI)
         if not self.listening:
-            self.set_status("Пауза", "Микрофон не слушаю", MUTED, "● пауза")
+            self.set_status(self.t("status_paused"), self.t("status_paused_hint"),
+                            MUTED, self.t("badge_pause"))
         else:
-            self.set_status("Слушаю микрофон", self._phrase_hint(), ACCENT)
+            self.set_status(self.t("status_listening"), self._phrase_hint(), ACCENT)
 
     def probe(self) -> None:
         if not self.engine:
-            self.append_log("Модель ещё не готова", "dim")
+            self.append_log(self.t("log_model_missing"), "dim")
             return
         self._was_paused = not self.listening
         self.engine.set_paused(False)
@@ -1203,20 +1433,21 @@ class App:
     def _probe_done(self) -> None:
         if self._was_paused and self.engine:
             self.engine.set_paused(True)
-            self.set_status("Пауза", "Микрофон не слушаю", MUTED, "● пауза")
+            self.set_status(self.t("status_paused"), self.t("status_paused_hint"),
+                            MUTED, self.t("badge_pause"))
         elif self.listening:
-            self.set_status("Слушаю микрофон", self._phrase_hint(), ACCENT)
+            self.set_status(self.t("status_listening"), self._phrase_hint(), ACCENT)
 
     def launch_now(self) -> None:
         self._apply_settings()
         try:
             if process_running(self.cfg["process_name"]):
-                self.append_log("Уже запущено — второй раз не открываю", "dim")
+                self.append_log(self.t("log_already"), "dim")
                 return
             launch_app(self.cfg["app_path"])
-            self.append_log("Запущено вручную", "hit")
+            self.append_log(self.t("log_launched_manual"), "hit")
         except Exception as exc:
-            self.append_log(f"Не вышло: {exc}", "err")
+            self.append_log(self.t("log_failed", error=exc), "err")
 
     # ---------------------- события ----------------------
 
@@ -1252,15 +1483,16 @@ class App:
         if kind == "status":
             _, state, detail = event
             if state == "listening":
-                self.set_status("Слушаю микрофон", self._phrase_hint(), ACCENT)
+                self.set_status(self.t("status_listening"), self._phrase_hint(), ACCENT)
             elif state == "loading":
-                self.set_status("Загружаю модель…", "Один раз при запуске",
-                                YELLOW, "● загрузка")
+                self.set_status(self.t("status_loading"), self.t("status_loading_hint"),
+                                YELLOW, self.t("badge_loading"))
             elif state == "error":
-                self.set_status("Ошибка", detail, RED, "● ошибка")
-                self.append_log(detail, "err")
+                self.set_status(self.t("status_error"), str(detail), RED, self.t("badge_error"))
+                self.append_log(str(detail), "err")
             elif state == "probe":
-                self.set_status("Слушаю…", f"Скажи фразу ({detail})", BLUE, "● проверка")
+                self.set_status(self.t("status_probe"), self.t("status_probe_hint", n=detail),
+                                BLUE, self.t("badge_probe"))
         elif kind == "heard":
             _, text, score = event
             threshold = float(self.cfg.get("threshold", 88))
@@ -1272,23 +1504,24 @@ class App:
             self.on_hit(text, score)
         elif kind == "tray_failed":
             self.tray = None
-            self.append_log("Трей недоступен — закрытие окна завершит работу", "err")
+            self.append_log(self.t("log_tray_failed"), "err")
         elif kind == "shortcut":
-            self.append_log(f"Ярлык на рабочем столе: {Path(event[1]).name}", "dim")
+            self.append_log(self.t("log_shortcut_ok", name=Path(event[1]).name), "dim")
 
     def on_hit(self, text: str, score: float) -> None:
         self._apply_settings()
-        self.append_log(f"🎯 «{text}» — запускаю", "hit")
+        self.append_log(self.t("log_launching", text=text), "hit")
         if self.cfg.get("beep", True):
             beep()
         try:
             if process_running(self.cfg["process_name"]):
-                self.append_log("Уже запущено — пропускаю", "dim")
+                self.append_log(self.t("log_skip"), "dim")
                 return
             launch_app(self.cfg["app_path"])
-            self.set_status("Запущено!", f"Фраза «{self.cfg['phrase']}»", ACCENT)
+            self.set_status(self.t("status_launched"),
+                            self.t("status_launched_hint", phrase=self.cfg["phrase"]), ACCENT)
         except Exception as exc:
-            self.append_log(f"Не вышло: {exc}", "err")
+            self.append_log(self.t("log_failed", error=exc), "err")
 
     def append_log(self, line: str, tag: str = "") -> None:
         self.log_text.configure(state="normal")
@@ -1321,8 +1554,8 @@ class App:
             from tkinter import messagebox
 
             if messagebox.askyesno(
-                "Свернуть некуда",
-                "Иконка в трее недоступна.\nЗакрыть приложение?",
+                self.t("dlg_no_tray_title"),
+                self.t("dlg_no_tray_text"),
                 parent=self.root,
             ):
                 self.quit()
@@ -1331,7 +1564,7 @@ class App:
         self.root.withdraw()
         if not self._hidden_hint_shown:
             self._hidden_hint_shown = True
-            self.tray.notify("Приложение работает в трее", "Голосовой запуск")
+            self.tray.notify(self.t("notify_hidden"), self.t("app_title"))
 
     def show_window(self) -> None:
         self.root.deiconify()
@@ -1344,9 +1577,9 @@ class App:
     def make_shortcut(self) -> None:
         try:
             link = create_shortcut()
-            self.append_log(f"Ярлык создан: {link.name}", "hit")
+            self.append_log(self.t("log_shortcut_ok", name=link.name), "hit")
         except Exception as exc:
-            self.append_log(f"Ярлык не создан: {exc}", "err")
+            self.append_log(self.t("log_shortcut_err", error=exc), "err")
 
     # ---------------------- загрузка модели ----------------------
 
@@ -1354,9 +1587,8 @@ class App:
         from tkinter import messagebox
 
         if not messagebox.askyesno(
-            "Нужна модель",
-            "Для распознавания речи нужна модель Vosk (~45 МБ).\n"
-            "Скачать её сейчас? Нужен интернет.",
+            self.t("dlg_model_title"),
+            self.t("dlg_model_text"),
             parent=self.root,
         ):
             return False
@@ -1369,13 +1601,13 @@ class App:
 
         s, f = self.s, self.fonts
         win = tk.Toplevel(self.root)
-        win.title("Загрузка модели")
+        win.title(self.t("dlg_downloading"))
         win.configure(bg=BG)
         win.resizable(False, False)
         win.transient(self.root)
         win.grab_set()
 
-        label = tk.Label(win, text="Соединяюсь…", bg=BG, fg=TEXT, font=f(10, "light"))
+        label = tk.Label(win, text=self.t("dlg_connecting"), bg=BG, fg=TEXT, font=f(10, "light"))
         label.pack(padx=s(22), pady=(s(20), s(12)))
         bar = tk.Canvas(win, width=s(340), height=s(8), bg=CARD, highlightthickness=0)
         bar.pack(padx=s(22), pady=(0, s(22)))
@@ -1384,8 +1616,17 @@ class App:
         progress_queue: "queue.Queue[tuple]" = queue.Queue()
 
         def worker() -> None:
+            texts = {
+                "connect": self.t("dlg_connecting"),
+                "downloaded": self.t("dlg_downloaded"),
+                "unpack": self.t("dlg_unpacking"),
+                "mirror": self.t("dlg_mirror"),
+            }
             try:
-                download_model(lambda pct, text: progress_queue.put(("progress", pct, text)))
+                download_model(
+                    lambda pct, text: progress_queue.put(("progress", pct, text)),
+                    texts=texts,
+                )
                 progress_queue.put(("done", 100, ""))
             except Exception as exc:
                 progress_queue.put(("error", 0, str(exc)))
@@ -1401,12 +1642,12 @@ class App:
                         label.configure(text=text)
                     elif kind == "done":
                         win.destroy()
-                        self.append_log("Модель загружена", "hit")
+                        self.append_log(self.t("log_model_ready"), "hit")
                         self.start_listening()
                         return
                     elif kind == "error":
                         win.destroy()
-                        messagebox.showerror("Не вышло", text, parent=self.root)
+                        messagebox.showerror(self.t("dlg_error_title"), text, parent=self.root)
                         return
             except queue.Empty:
                 pass
@@ -1446,7 +1687,7 @@ class Tray:
         return self.pystray.Icon(
             "voice-launcher",
             draw_icon(64),
-            "Голосовой запуск",
+            self.app.t("app_title"),
             self._menu(),
         )
 
@@ -1463,15 +1704,25 @@ class Tray:
 
     def _menu(self):
         pystray = self.pystray
+        t = self.app.t
         return pystray.Menu(
-            pystray.MenuItem("Открыть окно", lambda: self.app.post("show"), default=True),
+            pystray.MenuItem(t("tray_open"), lambda: self.app.post("show"), default=True),
             pystray.Menu.SEPARATOR,
-            pystray.MenuItem("Слушать / пауза", lambda: self.app.post("toggle")),
-            pystray.MenuItem("Запустить сейчас", lambda: self.app.post("launch")),
+            pystray.MenuItem(t("tray_toggle"), lambda: self.app.post("toggle")),
+            pystray.MenuItem(t("tray_launch"), lambda: self.app.post("launch")),
             pystray.Menu.SEPARATOR,
-            pystray.MenuItem("Ярлык на рабочий стол", lambda: self.app.post("shortcut")),
-            pystray.MenuItem("Выход", lambda: self.app.post("quit")),
+            pystray.MenuItem(t("tray_shortcut"), lambda: self.app.post("shortcut")),
+            pystray.MenuItem(t("tray_quit"), lambda: self.app.post("quit")),
         )
+
+    def refresh(self) -> None:
+        """Пересобирает меню после смены языка."""
+        try:
+            self.icon.menu = self._menu()
+            self.icon.title = self.app.t("app_title")
+            self.icon.update_menu()
+        except Exception as exc:
+            log.debug("Не удалось обновить меню трея: %s", exc)
 
     def start(self) -> None:
         def runner() -> None:

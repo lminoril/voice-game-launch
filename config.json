@@ -6,5 +6,6 @@
   "cooldown_seconds": 15,
   "sample_rate": 16000,
   "device": null,
-  "beep": true
+  "beep": true,
+  "lang": "ru"
 }
