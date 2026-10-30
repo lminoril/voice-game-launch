@@ -30,12 +30,40 @@ APP_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = APP_DIR / "config.json"
 LOG_PATH = APP_DIR / "app.log"
 ICON_PATH = APP_DIR / "icon.ico"
-MODEL_DIR = APP_DIR / "model" / "vosk-model-small-ru-0.22"
+MODEL_ROOT = APP_DIR / "model"
 
-MODEL_URLS = [
-    "https://raw.githubusercontent.com/kercre123/vosk-models/main/vosk-model-small-ru-0.22.zip",
-    "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip",
-]
+# Модели распознавания по языкам. Русская и английская — обе Vosk, обе офлайн.
+MODELS = {
+    "ru": {
+        "folder": "vosk-model-small-ru-0.22",
+        "urls": [
+            "https://raw.githubusercontent.com/kercre123/vosk-models/main/vosk-model-small-ru-0.22.zip",
+            "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip",
+        ],
+    },
+    "en": {
+        "folder": "vosk-model-small-en-us-0.15",
+        "urls": [
+            "https://raw.githubusercontent.com/kercre123/vosk-models/main/vosk-model-small-en-us-0.15.zip",
+            "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip",
+        ],
+    },
+}
+
+
+def model_dir(lang: str) -> Path:
+    info = MODELS.get(lang, MODELS["ru"])
+    return MODEL_ROOT / info["folder"]
+
+
+def phrase_language(phrase: str) -> str:
+    """Язык фразы определяем по алфавиту: кириллица — русская модель, латиница — английская."""
+    text = (phrase or "").lower()
+    if re.search(r"[а-яё]", text):
+        return "ru"
+    if re.search(r"[a-z]", text):
+        return "en"
+    return "ru"
 
 CREATE_NO_WINDOW = 0x08000000
 BUFFER_WORDS = 20
@@ -116,6 +144,9 @@ STRINGS = {
         "notify_hidden": "Приложение работает в трее",
         "dlg_model_title": "Нужна модель",
         "dlg_model_text": "Для распознавания речи нужна модель Vosk (~45 МБ).\nСкачать её сейчас? Нужен интернет.",
+        "dlg_model_text_lang": "Для фраз на {language} языке нужна модель Vosk (~{size} МБ).\nСкачать её сейчас? Нужен интернет.",
+        "lang_ru": "русском",
+        "lang_en": "английском",
         "dlg_downloading": "Загрузка модели",
         "dlg_connecting": "Соединяюсь…",
         "dlg_downloaded": "Скачано {done} из {total} МБ",
@@ -187,6 +218,9 @@ STRINGS = {
         "notify_hidden": "Still running in the tray",
         "dlg_model_title": "Model required",
         "dlg_model_text": "Speech recognition needs the Vosk model (~45 MB).\nDownload it now? Internet required.",
+        "dlg_model_text_lang": "Phrases in {language} need the Vosk model (~{size} MB).\nDownload it now? Internet required.",
+        "lang_ru": "Russian",
+        "lang_en": "English",
         "dlg_downloading": "Downloading model",
         "dlg_connecting": "Connecting…",
         "dlg_downloaded": "Downloaded {done} of {total} MB",
@@ -479,8 +513,9 @@ def create_shortcut() -> Path:
 # Модель
 # ---------------------------------------------------------------------------
 
-def model_ready() -> bool:
-    return MODEL_DIR.exists() and (MODEL_DIR / "am").exists()
+def model_ready(lang: str = "ru") -> bool:
+    folder = model_dir(lang)
+    return folder.exists() and (folder / "am").exists()
 
 
 DOWNLOAD_TEXTS = {
@@ -494,15 +529,17 @@ DOWNLOAD_TEXTS = {
 }
 
 
-def download_model(progress=None, texts: dict | None = None) -> None:
+def download_model(progress=None, texts: dict | None = None, lang: str = "ru") -> None:
     import urllib.request
 
     messages = {**DOWNLOAD_TEXTS, **(texts or {})}
-    MODEL_DIR.parent.mkdir(parents=True, exist_ok=True)
-    zip_path = APP_DIR / "model.zip"
+    info = MODELS.get(lang, MODELS["ru"])
+    target = model_dir(lang)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    zip_path = APP_DIR / f"model-{lang}.zip"
     last_error: Exception | None = None
 
-    for url in MODEL_URLS:
+    for url in info["urls"]:
         try:
             if progress:
                 progress(0, messages["connect"])
@@ -526,9 +563,9 @@ def download_model(progress=None, texts: dict | None = None) -> None:
             if progress:
                 progress(100, messages["unpack"])
             with zipfile.ZipFile(zip_path) as archive:
-                archive.extractall(MODEL_DIR.parent)
+                archive.extractall(target.parent)
             zip_path.unlink(missing_ok=True)
-            if model_ready():
+            if model_ready(lang):
                 return
             raise RuntimeError(messages["no_model"])
         except Exception as exc:
@@ -591,9 +628,16 @@ class Engine(threading.Thread):
         from vosk import KaldiRecognizer, Model, SetLogLevel
 
         SetLogLevel(-1)
+        lang = self.cfg.get("model_lang") or phrase_language(self.cfg.get("phrase", ""))
+        if not model_ready(lang):
+            # Модели этого языка ещё нет — просим окно её скачать.
+            self.out.put(("status", "need_model", lang))
+            self.stop()
+            return
+
         self.out.put(("status", "loading", None))
-        model = Model(str(MODEL_DIR))
-        log.info("Модель загружена")
+        model = Model(str(model_dir(lang)))
+        log.info("Модель загружена (%s)", lang)
 
         rate = int(self.cfg.get("sample_rate", 16000))
         recognizer = KaldiRecognizer(model, rate)
@@ -1285,6 +1329,8 @@ class App:
         self.phrase_var.trace_add("write", lambda *_a: self._schedule_save())
 
         self._sync_pills()
+        self.cfg["model_lang"] = phrase_language(self.cfg.get("phrase", ""))
+        self._update_phrase_language_badge()
         self.status_hint.configure(text=self._phrase_hint())
 
     # ---------------------- язык ----------------------
@@ -1307,6 +1353,7 @@ class App:
         self.launch_btn.configure(text=self.t("btn_launch"))
         self.label_log.configure(text=self.t("log_title"))
         self.footer_label.configure(text=self.t("footer"))
+        self._update_phrase_language_badge()
         self._sync_pills()
 
         if self._placeholder:
@@ -1340,11 +1387,32 @@ class App:
         self.cfg["phrase"] = self.phrase_var.get().strip()
         self.cfg["threshold"] = THRESHOLD_PRESETS.get(self.current_preset, 88.0)
         self.cfg["process_name"] = Path(self.cfg["app_path"]).name or self.cfg["process_name"]
+
+        new_lang = phrase_language(self.cfg["phrase"])
+        lang_changed = new_lang != self.cfg.get("model_lang")
+        self.cfg["model_lang"] = new_lang
+
         if save:
             save_config(self.cfg)
         if self.engine:
             self.engine.cfg = self.cfg
+
+        self._update_phrase_language_badge()
         self._update_hint()
+
+        # Сменился язык фразы — нужна другая модель, перезапускаем слушатель.
+        if lang_changed and self.engine and self.listening:
+            self.root.after(150, self._restart_engine)
+
+    def _restart_engine(self) -> None:
+        if self.engine:
+            self.engine.stop()
+            self.engine = None
+        self.start_listening()
+
+    def _update_phrase_language_badge(self) -> None:
+        lang = self.cfg.get("model_lang", "ru")
+        self.label_phrase.configure(text=f"{self.t('label_phrase')}  ·  {lang.upper()}")
 
     @property
     def current_preset(self) -> str:
@@ -1394,8 +1462,9 @@ class App:
     # ---------------------- слушатель ----------------------
 
     def start_listening(self) -> None:
-        if not model_ready():
-            if not self.ask_download_model():
+        lang = self.cfg.get("model_lang") or phrase_language(self.cfg.get("phrase", ""))
+        if not model_ready(lang):
+            if not self.ask_download_model(lang):
                 self.set_status(self.t("status_no_model"), self.t("status_no_model_hint"),
                                 YELLOW, self.t("badge_no_model"))
                 return
@@ -1493,6 +1562,11 @@ class App:
             elif state == "probe":
                 self.set_status(self.t("status_probe"), self.t("status_probe_hint", n=detail),
                                 BLUE, self.t("badge_probe"))
+            elif state == "need_model":
+                self.listening = False
+                self.set_status(self.t("status_no_model"), self.t("status_no_model_hint"),
+                                YELLOW, self.t("badge_no_model"))
+                self.ask_download_model(str(detail))
         elif kind == "heard":
             _, text, score = event
             threshold = float(self.cfg.get("threshold", 88))
@@ -1583,19 +1657,21 @@ class App:
 
     # ---------------------- загрузка модели ----------------------
 
-    def ask_download_model(self) -> bool:
+    def ask_download_model(self, lang: str = "ru") -> bool:
         from tkinter import messagebox
 
+        size = 45 if lang == "ru" else 41
+        language_name = self.t("lang_ru" if lang == "ru" else "lang_en")
         if not messagebox.askyesno(
             self.t("dlg_model_title"),
-            self.t("dlg_model_text"),
+            self.t("dlg_model_text_lang", language=language_name, size=size),
             parent=self.root,
         ):
             return False
-        self._download_dialog()
+        self._download_dialog(lang)
         return False
 
-    def _download_dialog(self) -> None:
+    def _download_dialog(self, lang: str = "ru") -> None:
         from tkinter import messagebox
         import tkinter as tk
 
@@ -1626,6 +1702,7 @@ class App:
                 download_model(
                     lambda pct, text: progress_queue.put(("progress", pct, text)),
                     texts=texts,
+                    lang=lang,
                 )
                 progress_queue.put(("done", 100, ""))
             except Exception as exc:

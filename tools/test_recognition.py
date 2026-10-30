@@ -24,10 +24,15 @@ def main() -> int:
     folder = Path(sys.argv[1])
     phrase = sys.argv[2] if len(sys.argv) > 2 else app.load_config()["phrase"]
     threshold = 88.0
+    lang = app.phrase_language(phrase)
 
-    model = Model(str(app.MODEL_DIR))
+    if not app.model_ready(lang):
+        print(f"нет модели для языка {lang!r}: {app.model_dir(lang)}")
+        return 1
+
+    model = Model(str(app.model_dir(lang)))
     fails = 0
-    print(f"фраза: {phrase!r}, порог {threshold}\n")
+    print(f"фраза: {phrase!r}, язык {lang}, порог {threshold}\n")
 
     for wav_path in sorted(folder.glob("*.wav")):
         with wave.open(str(wav_path), "rb") as wf:
